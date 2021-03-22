@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.proyectobasededatos;
 
-/**
- *
- * @author aleja
- */
+
 public class Home extends javax.swing.JFrame {
 
     /**
@@ -111,7 +103,7 @@ public class Home extends javax.swing.JFrame {
         homeDesktop.add(u).setVisible(true);
       
     }//GEN-LAST:event_usuariosbtnActionPerformed
-
+                         
     private void ventabtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventabtnActionPerformed
         // TODO add your handling code here:
         homeDesktop.removeAll();
