@@ -8,6 +8,7 @@ package com.mycompany.proyectobasededatos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,15 +18,16 @@ public class ventaItem extends javax.swing.JInternalFrame {
     Conexion conexion = new Conexion();
     PreparedStatement ps = null;
     ResultSet rs = null;
-
+    Integer total = 0,subtotal=0;
     /**
      * Creates new form ventaItem
      */
     public ventaItem() {
-
+        
         initComponents();
+        jComboBox1.addItem("Seleccionar producto");
         try (Connection cnx = conexion.getConnection()){
-            String query = "SELECT * FROM producto INNER JOIN categorï¿½a ON producto.Categorï¿½a_id=categorï¿½a.id";
+            String query = "SELECT * FROM producto INNER JOIN categoría ON producto.Categoría_id=categoría.id";
             ps = cnx.prepareStatement(query);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -54,7 +56,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         getDireccion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        autoCompletar = new javax.swing.JButton();
         getCliente = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -63,6 +65,14 @@ public class ventaItem extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         getCantidadVendida = new javax.swing.JTextField();
         agregar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        textSubtotal = new javax.swing.JTextField();
+        textTotal = new javax.swing.JTextField();
+
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         jLabel1.setText("DATOS DEL CLIENTE");
 
@@ -96,9 +106,14 @@ public class ventaItem extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setText("Direcciï¿½n");
+        jLabel5.setText("Dirección");
 
-        jButton1.setText("Autocompletar Datos");
+        autoCompletar.setText("Autocompletar Datos");
+        autoCompletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoCompletarActionPerformed(evt);
+            }
+        });
 
         getCliente.setText("Guardar");
         getCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -111,7 +126,6 @@ public class ventaItem extends javax.swing.JInternalFrame {
 
         jButton2.setText("Imprimir Factura");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -123,9 +137,25 @@ public class ventaItem extends javax.swing.JInternalFrame {
         jLabel8.setText("Cantidad");
 
         agregar.setText("Agregar");
-        setClosable(true);
-        setMaximizable(true);
-        setResizable(true);
+        agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Total");
+
+        jLabel10.setText("Subtotal");
+
+        textSubtotal.setText("Subtotal");
+        textSubtotal.setToolTipText("");
+        textSubtotal.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        textSubtotal.setEnabled(false);
+
+        textTotal.setText("Total");
+        textTotal.setToolTipText("");
+        textTotal.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        textTotal.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,7 +190,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(autoCompletar)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 276, Short.MAX_VALUE)
@@ -172,19 +202,24 @@ public class ventaItem extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(agregar)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButton2)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel8)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(getCantidadVendida, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel7)
-                                            .addGap(60, 60, 60)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel9)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(textTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel10)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(textSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(85, 85, 85))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(119, 119, 119))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +234,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(getNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
+                            .addComponent(autoCompletar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -224,10 +259,18 @@ public class ventaItem extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(agregar)))
                 .addGap(18, 18, 18)
-                .addComponent(getCliente)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(getCliente)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(textSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(textTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(81, 81, 81)
                 .addComponent(jButton2)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addGap(88, 88, 88))
         );
 
         pack();
@@ -251,7 +294,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
 
     private void getClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getClienteActionPerformed
         try (Connection cnx = conexion.getConnection()){
-            String query = "INSERT INTO cliente (NIT,Nombre,Apellido,Direcciï¿½n) VALUES (?,?,?,?)";
+            String query = "INSERT INTO cliente (NIT,Nombre,Apellido,Dirección) VALUES (?,?,?,?)";
             ps = cnx.prepareStatement(query);
             ps.setString(1,getNit.getText());
             ps.setString(2,getNombre.getText());
@@ -269,19 +312,73 @@ public class ventaItem extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
+        String productoNombre = String.valueOf(jComboBox1.getSelectedItem());
+        Integer cantidad = Integer.parseInt(getCantidadVendida.getText());
+        try (Connection cnx = conexion.getConnection()) {
+            System.out.println(productoNombre);
+            String query = "SELECT * FROM producto WHERE producto.Nombre='"+productoNombre+"'";
+            ps = cnx.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                if(cantidad <= rs.getInt("producto.cantidad")){
+                    this.subtotal = rs.getInt("producto.Precio_Venta")*cantidad;
+                    this.total = total+subtotal;
+                    textSubtotal.setText(subtotal.toString());
+                    textTotal.setText(total.toString());
+                    String query2 = "UPDATE producto SET Cantidad = ? WHERE producto.Nombre='"+productoNombre+"'"+" AND producto.id=?";
+                    ps = cnx.prepareStatement(query2);
+                    ps.setInt(1, (rs.getInt("producto.cantidad") - cantidad));
+                    //ps.setString(2, rs.getString(productoNombre));
+                    ps.setInt(2, rs.getInt("producto.id"));
+                    ps.executeUpdate();
+                    System.out.println("Vendido!");
+                }else{
+                    JOptionPane.showMessageDialog(this, "No hay suficientes unidades en el inventario", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_agregarActionPerformed
+
+    private void autoCompletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoCompletarActionPerformed
+        try (Connection cnx = conexion.getConnection()) {
+            String query = "SELECT * FROM cliente WHERE cliente.NIT='"+getNit.getText()+"'";
+            ps = cnx.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                getNit.setText(rs.getString("cliente.NIT"));
+                getNombre.setText(rs.getString("cliente.Nombre"));
+                getApellido.setText(rs.getString("cliente.Apellido"));
+                getDireccion.setText(rs.getString("cliente.Dirección"));
+                getCliente.setVisible(false);
+                getNit.disable();
+                getNombre.disable();
+                getApellido.disable();
+                getDireccion.disable();
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No existe el usuario en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_autoCompletarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
+    private javax.swing.JButton autoCompletar;
     private javax.swing.JTextField getApellido;
     private javax.swing.JTextField getCantidadVendida;
     private javax.swing.JButton getCliente;
     private javax.swing.JTextField getDireccion;
     private javax.swing.JTextField getNit;
     private javax.swing.JTextField getNombre;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -289,5 +386,8 @@ public class ventaItem extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField textSubtotal;
+    private javax.swing.JTextField textTotal;
     // End of variables declaration//GEN-END:variables
 }

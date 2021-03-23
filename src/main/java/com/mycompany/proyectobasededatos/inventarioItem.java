@@ -27,22 +27,17 @@ public class inventarioItem extends javax.swing.JInternalFrame {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-        try (Connection cnx = conexion.getConnection()){
-            String query = "SELECT * FROM producto INNER JOIN categorï¿½a ON producto.Categorï¿½a_id=categorï¿½a.id";
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
         Conexion conexion = new Conexion();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        try (Connection cnx = conexion.getConnection()){
-            String query = "SELECT * FROM producto";
+        try (Connection cnx = conexion.getConnection()) {
+            String query = "SELECT * FROM producto INNER JOIN categoría ON producto.Categoría_id=categoría.id";
             ps = cnx.prepareStatement(query);
-            rs=ps.executeQuery();
-            while(rs.next()){
-                model.addRow(new Object[]
-                {rs.getInt("producto.id"),rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"),rs.getString("categorï¿½a.Tipo")});
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getInt("producto.id"), rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"), rs.getString("categoría.Tipo")});
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
