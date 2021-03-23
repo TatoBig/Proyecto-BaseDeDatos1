@@ -8,32 +8,38 @@ package com.mycompany.proyectobasededatos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author aleja
  */
 public class ventaItem extends javax.swing.JInternalFrame {
+
     Conexion conexion = new Conexion();
     PreparedStatement ps = null;
     ResultSet rs = null;
-    Integer total = 0,subtotal=0;
+    Integer total = 0, subtotal = 0, totalProductos = 0;
+    ArrayList<Venta> queryActualizar = new ArrayList<Venta>();
+    DefaultTableModel model;
+
     /**
      * Creates new form ventaItem
      */
     public ventaItem() {
-        
         initComponents();
+        model = (DefaultTableModel) jTable1.getModel();
         jComboBox1.addItem("Seleccionar producto");
-        try (Connection cnx = conexion.getConnection()){
+        try (Connection cnx = conexion.getConnection()) {
             String query = "SELECT * FROM producto INNER JOIN categoría ON producto.Categoría_id=categoría.id";
             ps = cnx.prepareStatement(query);
-            rs=ps.executeQuery();
-            while(rs.next()){
+            rs = ps.executeQuery();
+            while (rs.next()) {
                 jComboBox1.addItem(rs.getString("producto.nombre"));
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
@@ -47,6 +53,8 @@ public class ventaItem extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         getNit = new javax.swing.JTextField();
@@ -59,7 +67,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
         autoCompletar = new javax.swing.JButton();
         getCliente = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        finalizar = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -69,6 +77,21 @@ public class ventaItem extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         textSubtotal = new javax.swing.JTextField();
         textTotal = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
 
         setClosable(true);
         setMaximizable(true);
@@ -124,7 +147,12 @@ public class ventaItem extends javax.swing.JInternalFrame {
 
         jLabel6.setText("AGREGAR ARTICULOS VENDIDOS");
 
-        jButton2.setText("Imprimir Factura");
+        finalizar.setText("Confirmar e Imprimir Factura");
+        finalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finalizarActionPerformed(evt);
+            }
+        });
 
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,6 +184,24 @@ public class ventaItem extends javax.swing.JInternalFrame {
         textTotal.setToolTipText("");
         textTotal.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         textTotal.setEnabled(false);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No. ", "Producto", "Cantidad", "Subtotal"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,7 +248,6 @@ public class ventaItem extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(agregar)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jButton2)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel8)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -211,15 +256,21 @@ public class ventaItem extends javax.swing.JInternalFrame {
                                             .addComponent(jLabel7)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel9)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(textTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel10)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(textSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel10)
+                                                .addComponent(jLabel9))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(textSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                                                .addComponent(textTotal)))))
                                 .addGap(85, 85, 85))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(finalizar)
+                .addGap(73, 73, 73))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,9 +319,15 @@ public class ventaItem extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(textTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(81, 81, 81)
-                .addComponent(jButton2)
-                .addGap(88, 88, 88))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(finalizar)
+                        .addGap(92, 92, 92))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
 
         pack();
@@ -293,17 +350,10 @@ public class ventaItem extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_getDireccionActionPerformed
 
     private void getClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getClienteActionPerformed
-        try (Connection cnx = conexion.getConnection()){
-            String query = "INSERT INTO cliente (NIT,Nombre,Apellido,Dirección) VALUES (?,?,?,?)";
-            ps = cnx.prepareStatement(query);
-            ps.setString(1,getNit.getText());
-            ps.setString(2,getNombre.getText());
-            ps.setString(3,getApellido.getText());
-            ps.setString(4,getDireccion.getText());
-            ps.executeUpdate();
-            System.out.println("Cliente creado");
+        try (Connection cnx = conexion.getConnection()) {
+            
 
-            } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_getClienteActionPerformed
@@ -313,31 +363,39 @@ public class ventaItem extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
+        Venta venta = new Venta();
         String productoNombre = String.valueOf(jComboBox1.getSelectedItem());
+        jComboBox1.removeItemAt(jComboBox1.getSelectedIndex());
         Integer cantidad = Integer.parseInt(getCantidadVendida.getText());
         try (Connection cnx = conexion.getConnection()) {
             System.out.println(productoNombre);
-            String query = "SELECT * FROM producto WHERE producto.Nombre='"+productoNombre+"'";
+            String query = "SELECT * FROM producto WHERE producto.Nombre='" + productoNombre + "'";
+            venta.setQuery1(query);
             ps = cnx.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                if(cantidad <= rs.getInt("producto.cantidad")){
-                    this.subtotal = rs.getInt("producto.Precio_Venta")*cantidad;
-                    this.total = total+subtotal;
+                if (cantidad <= rs.getInt("producto.cantidad")) {
+                    this.subtotal = rs.getInt("producto.Precio_Venta") * cantidad;
+                    this.total = total + subtotal;
                     textSubtotal.setText(subtotal.toString());
                     textTotal.setText(total.toString());
-                    String query2 = "UPDATE producto SET Cantidad = ? WHERE producto.Nombre='"+productoNombre+"'"+" AND producto.id=?";
-                    ps = cnx.prepareStatement(query2);
-                    ps.setInt(1, (rs.getInt("producto.cantidad") - cantidad));
-                    //ps.setString(2, rs.getString(productoNombre));
-                    ps.setInt(2, rs.getInt("producto.id"));
-                    ps.executeUpdate();
+                    String query2 = "UPDATE producto SET Cantidad ='" + (rs.getInt("producto.cantidad") - cantidad) + "' WHERE producto.Nombre='" + productoNombre + "'" + " AND producto.id='" + rs.getInt("producto.id") + "'";
+                    venta.setQuery2(query2);
+                    venta.setCantidad(cantidad);
+                    queryActualizar.add(venta);
+                    //ps = cnx.prepareStatement(query2);
+                    //ps.setInt(1, (rs.getInt("producto.cantidad") - cantidad));
+                    //ps.setInt(2, rs.getInt("producto.id"));
+                    //ps.executeUpdate();
+                    totalProductos++;
+                    model.addRow(new Object[]{totalProductos, rs.getString("producto.Nombre"), cantidad, subtotal});
+                    getCantidadVendida.setText("");
                     System.out.println("Vendido!");
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "No hay suficientes unidades en el inventario", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -345,7 +403,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
 
     private void autoCompletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoCompletarActionPerformed
         try (Connection cnx = conexion.getConnection()) {
-            String query = "SELECT * FROM cliente WHERE cliente.NIT='"+getNit.getText()+"'";
+            String query = "SELECT * FROM cliente WHERE cliente.NIT='" + getNit.getText() + "'";
             ps = cnx.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -359,23 +417,52 @@ public class ventaItem extends javax.swing.JInternalFrame {
                 getApellido.disable();
                 getDireccion.disable();
             }
-            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "No existe el usuario en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_autoCompletarActionPerformed
 
+    private void finalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalizarActionPerformed
+        try (Connection cnx = conexion.getConnection()) {
+            for (int i = 0; i < queryActualizar.size(); i++) {
+                ps = cnx.prepareStatement(queryActualizar.get(i).getQuery1());
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    textSubtotal.setText(subtotal.toString());
+                    textTotal.setText(total.toString());
+                    ps = cnx.prepareStatement(queryActualizar.get(i).getQuery2());
+                    //ps.setInt(1, (rs.getInt("producto.cantidad") - cantidad));
+                    //ps.setInt(2, rs.getInt("producto.id"));
+                    ps.executeUpdate();
+                    System.out.println("Vendido!");
+
+                }
+            }
+            /*String query = "INSERT INTO ventas (id,Fecha,Total,Usuario_id,Cliente_NIT) VALUES (?,?,?,?,?)";
+            ps = cnx.prepareStatement(query);
+            ps.setString(1, getNit.getText());
+            ps.setString(2, getNombre.getText());
+            ps.setString(3, getApellido.getText());
+            ps.setString(4, getDireccion.getText());
+            ps.executeUpdate();*/
+            JOptionPane.showMessageDialog(this, "Venta realizada exitosamente");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        this.dispose();
+    }//GEN-LAST:event_finalizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
     private javax.swing.JButton autoCompletar;
+    private javax.swing.JButton finalizar;
     private javax.swing.JTextField getApellido;
     private javax.swing.JTextField getCantidadVendida;
     private javax.swing.JButton getCliente;
     private javax.swing.JTextField getDireccion;
     private javax.swing.JTextField getNit;
     private javax.swing.JTextField getNombre;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -387,7 +474,42 @@ public class ventaItem extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField textSubtotal;
     private javax.swing.JTextField textTotal;
     // End of variables declaration//GEN-END:variables
+}
+
+public class Venta {
+
+    private String query1;
+    private String query2;
+    private Integer cantidad;
+
+    public String getQuery1() {
+        return query1;
+    }
+
+    public String getQuery2() {
+        return query2;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setQuery1(String query1) {
+        this.query1 = query1;
+    }
+
+    public void setQuery2(String query2) {
+        this.query2 = query2;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
 }
