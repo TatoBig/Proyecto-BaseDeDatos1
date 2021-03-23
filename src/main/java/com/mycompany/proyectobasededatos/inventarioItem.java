@@ -19,21 +19,28 @@ public class inventarioItem extends javax.swing.JInternalFrame {
     Conexion conexion = new Conexion();
     PreparedStatement ps = null;
     ResultSet rs = null;
-            
+
     /**
      * Creates new form inventarioItem
      */
     public inventarioItem() {
         initComponents();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();        
-        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
         try (Connection cnx = conexion.getConnection()){
-            String query = "SELECT * FROM producto INNER JOIN categoría ON producto.Categoría_id=categoría.id";
+            String query = "SELECT * FROM producto INNER JOIN categorï¿½a ON producto.Categorï¿½a_id=categorï¿½a.id";
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        Conexion conexion = new Conexion();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try (Connection cnx = conexion.getConnection()){
+            String query = "SELECT * FROM producto";
             ps = cnx.prepareStatement(query);
             rs=ps.executeQuery();
             while(rs.next()){
                 model.addRow(new Object[]
-                {rs.getInt("producto.id"),rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"),rs.getString("categoría.Tipo")});
+                {rs.getInt("producto.id"),rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"),rs.getString("categorï¿½a.Tipo")});
             }
         } catch(Exception e){
             System.out.println(e);
@@ -54,6 +61,10 @@ public class inventarioItem extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jLabel1.setText("Inventario actual");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -61,7 +72,7 @@ public class inventarioItem extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "id", "Nombre", "Costo", "Precio Venta", "Cantidad", "Categoría"
+                "id", "Nombre", "Costo", "Precio Venta", "Cantidad", "Categorï¿½a"
             }
         ) {
             Class[] types = new Class [] {

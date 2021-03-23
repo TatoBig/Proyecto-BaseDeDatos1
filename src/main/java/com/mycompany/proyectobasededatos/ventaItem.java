@@ -17,15 +17,15 @@ public class ventaItem extends javax.swing.JInternalFrame {
     Conexion conexion = new Conexion();
     PreparedStatement ps = null;
     ResultSet rs = null;
-    
+
     /**
      * Creates new form ventaItem
      */
     public ventaItem() {
-        
+
         initComponents();
         try (Connection cnx = conexion.getConnection()){
-            String query = "SELECT * FROM producto INNER JOIN categoría ON producto.Categoría_id=categoría.id";
+            String query = "SELECT * FROM producto INNER JOIN categorï¿½a ON producto.Categorï¿½a_id=categorï¿½a.id";
             ps = cnx.prepareStatement(query);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -96,7 +96,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setText("Dirección");
+        jLabel5.setText("Direcciï¿½n");
 
         jButton1.setText("Autocompletar Datos");
 
@@ -123,6 +123,9 @@ public class ventaItem extends javax.swing.JInternalFrame {
         jLabel8.setText("Cantidad");
 
         agregar.setText("Agregar");
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -248,7 +251,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
 
     private void getClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getClienteActionPerformed
         try (Connection cnx = conexion.getConnection()){
-            String query = "INSERT INTO cliente (NIT,Nombre,Apellido,Dirección) VALUES (?,?,?,?)";
+            String query = "INSERT INTO cliente (NIT,Nombre,Apellido,Direcciï¿½n) VALUES (?,?,?,?)";
             ps = cnx.prepareStatement(query);
             ps.setString(1,getNit.getText());
             ps.setString(2,getNombre.getText());
@@ -256,7 +259,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
             ps.setString(4,getDireccion.getText());
             ps.executeUpdate();
             System.out.println("Cliente creado");
-            
+
             } catch(Exception e){
             System.out.println(e);
         }

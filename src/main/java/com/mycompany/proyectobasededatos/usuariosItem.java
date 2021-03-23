@@ -5,6 +5,11 @@
  */
 package com.mycompany.proyectobasededatos;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author aleja
@@ -16,6 +21,22 @@ public class usuariosItem extends javax.swing.JInternalFrame {
      */
     public usuariosItem() {
         initComponents();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
+         Conexion conexion = new Conexion();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try (Connection cnx = conexion.getConnection()){
+            String query = "SELECT * FROM usuario";
+            ps = cnx.prepareStatement(query);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                model.addRow(new Object[]
+                {rs.getInt("id"), rs.getString("Nombre"), rs.getInt("Telefono"),rs.getString("Correo"), rs.getBoolean("Estado_Activo"),rs.getInt("Cargo_id")});
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     /**
@@ -27,18 +48,40 @@ public class usuariosItem extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
         setMaximumSize(new java.awt.Dimension(900, 2147483647));
         setPreferredSize(new java.awt.Dimension(890, 480));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id","Nombre","Telefono","Email","Estado","Cargo_id",
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 864, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -46,5 +89,7 @@ public class usuariosItem extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
