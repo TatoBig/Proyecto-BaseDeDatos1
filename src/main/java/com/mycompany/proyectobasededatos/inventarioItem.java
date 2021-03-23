@@ -53,6 +53,10 @@ public class inventarioItem extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jLabel1.setText("Inventario actual");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

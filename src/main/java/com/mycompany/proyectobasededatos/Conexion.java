@@ -17,7 +17,7 @@ public class Conexion {
     public Connection getConnection(){
         Connection connection = null;
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto","root","yaopyaop");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3305/proyecto","root","LHdm@1409");
             if(connection != null){
                 System.out.println("Se realizo la conexión");
             }
