@@ -23,6 +23,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
     ResultSet rs = null;
     Integer total = 0, subtotal = 0, totalProductos = 0;
     ArrayList<Venta> queryActualizar = new ArrayList<Venta>();
+    ArrayList<VentaHasProducto> ventasIndividuales = new ArrayList<VentaHasProducto>();
     DefaultTableModel model;
 
     /**
@@ -129,7 +130,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setText("Dirección");
+        jLabel5.setText("DirecciÃ³n");
 
         autoCompletar.setText("Autocompletar Datos");
         autoCompletar.addActionListener(new java.awt.event.ActionListener() {
@@ -351,8 +352,13 @@ public class ventaItem extends javax.swing.JInternalFrame {
 
     private void getClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getClienteActionPerformed
         try (Connection cnx = conexion.getConnection()) {
-            
-
+            String query = "INSERT INTO cliente (NIT,Nombre,Apellido,Dirección) VALUES (?,?,?,?)";
+            ps = cnx.prepareStatement(query);
+            ps.setString(1, getNit.getText());
+            ps.setString(2, getNombre.getText());
+            ps.setString(3, getApellido.getText());
+            ps.setString(4, getDireccion.getText());
+            ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -389,7 +395,10 @@ public class ventaItem extends javax.swing.JInternalFrame {
                     //ps.executeUpdate();
                     totalProductos++;
                     model.addRow(new Object[]{totalProductos, rs.getString("producto.Nombre"), cantidad, subtotal});
+                    VentaHasProducto nuevaVenta = new VentaHasProducto(1, 1, totalProductos, (subtotal / cantidad), subtotal, rs.getString("producto.Nombre"));
+                    ventasIndividuales.add(nuevaVenta);
                     getCantidadVendida.setText("");
+
                     System.out.println("Vendido!");
                 } else {
                     JOptionPane.showMessageDialog(this, "No hay suficientes unidades en el inventario", "Error", JOptionPane.ERROR_MESSAGE);
@@ -423,6 +432,7 @@ public class ventaItem extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_autoCompletarActionPerformed
 
     private void finalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalizarActionPerformed
+        String queryIndividual;
         try (Connection cnx = conexion.getConnection()) {
             for (int i = 0; i < queryActualizar.size(); i++) {
                 ps = cnx.prepareStatement(queryActualizar.get(i).getQuery1());
@@ -435,16 +445,18 @@ public class ventaItem extends javax.swing.JInternalFrame {
                     //ps.setInt(2, rs.getInt("producto.id"));
                     ps.executeUpdate();
                     System.out.println("Vendido!");
-
                 }
             }
-            /*String query = "INSERT INTO ventas (id,Fecha,Total,Usuario_id,Cliente_NIT) VALUES (?,?,?,?,?)";
+            String query = "call insertarVenta(" + total + ",1,'" + getNit.getText() + "')";
+            System.out.println(query);
             ps = cnx.prepareStatement(query);
-            ps.setString(1, getNit.getText());
-            ps.setString(2, getNombre.getText());
-            ps.setString(3, getApellido.getText());
-            ps.setString(4, getDireccion.getText());
-            ps.executeUpdate();*/
+            ps.executeUpdate();
+            for (int i = 0; i < ventasIndividuales.size(); i++) {
+                queryIndividual = "call insertarVentaHasProducto ('" + ventasIndividuales.get(i).getNombre() + "', " + ventasIndividuales.get(i).getCantidad_Vendida() + ", " + ventasIndividuales.get(i).getPrecio() + ", " + ventasIndividuales.get(i).getSubtotal() + ")";
+                System.out.println(queryIndividual);
+                ps = cnx.prepareStatement(queryIndividual);
+                ps.executeUpdate();
+            }
             JOptionPane.showMessageDialog(this, "Venta realizada exitosamente");
         } catch (Exception e) {
             System.out.println(e);
@@ -482,5 +494,3 @@ public class ventaItem extends javax.swing.JInternalFrame {
     private javax.swing.JTextField textTotal;
     // End of variables declaration//GEN-END:variables
 }
-
-

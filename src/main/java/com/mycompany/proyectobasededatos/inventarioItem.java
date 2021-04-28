@@ -31,11 +31,11 @@ public class inventarioItem extends javax.swing.JInternalFrame {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try (Connection cnx = conexion.getConnection()) {
-            String query = "SELECT * FROM producto INNER JOIN categoría ON producto.Categoría_id=categoría.id";
+            String query = "SELECT * FROM producto INNER JOIN categorÃ­a ON producto.CategorÃ­a_id=categorÃ­a.id";
             ps = cnx.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getInt("producto.id"), rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"), rs.getString("categoría.Tipo")});
+                model.addRow(new Object[]{rs.getInt("producto.id"), rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"), rs.getString("categorï¿½a.Tipo")});
             }
         } catch (Exception e) {
             System.out.println(e);
