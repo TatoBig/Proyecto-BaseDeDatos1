@@ -1,0 +1,25 @@
+delimiter // 
+
+DROP PROCEDURE IF EXISTS insertarVenta //
+
+CREATE PROCEDURE insertarVenta (vTotal INT, vUsuarioId INT, vCliente_NIT VARCHAR(45))
+BEGIN 
+	DECLARE newId INT DEFAULT 0;
+	SELECT COUNT(*) + 1 INTO newId FROM venta;
+	INSERT INTO venta(id, Fecha, Total, Usuario_id, Cliente_NIT) VALUES (newId,NOW(),vTotal,vUsuarioId,vCliente_NIT);   
+END; //
+
+DROP PROCEDURE IF EXISTS insertarVentaHasProducto //
+
+CREATE PROCEDURE insertarVentaHasProducto (vProductoNombre VARCHAR(45), vCantidad_Vendida INT, vPrecio INT, vSubtotal INT)
+BEGIN 
+	DECLARE newId INT DEFAULT 0;
+    DECLARE newProductoId INT DEFAULT 0;
+    DECLARE newVentaId INT DEFAULT 0;
+    SELECT id INTO newVentaId FROM venta WHERE Fecha = NOW();    
+    SELECT id INTO newProductoId FROM producto WHERE producto.nombre = vProductoNombre;
+	SELECT COUNT(*) + 1 INTO newId FROM venta_has_producto;
+	INSERT INTO venta_has_producto (Venta_id,Producto_id,id,Cantidad_Vendida, Precio, Subtotal) VALUES (newVentaId,newProductoId,newId,vCantidad_Vendida,vPrecio,vSubtotal);
+END; //
+
+delimiter ;
