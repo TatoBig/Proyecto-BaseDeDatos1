@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Login extends javax.swing.JFrame {
-    
+     public static String usuarioID;
     public Login() {
         initComponents();
         
@@ -16,7 +16,7 @@ public class Login extends javax.swing.JFrame {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try (Connection cnx = conexion.getConnection()){
-            String query = "SELECT Usuario,Contraseña FROM contraseña";
+            String query = "SELECT Usuario,Contraseña,Usuario_id FROM contraseña";
             ps = cnx.prepareStatement(query);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -26,6 +26,7 @@ public class Login extends javax.swing.JFrame {
                 String cont=""+rs.getString("Contraseña").toString();
                 System.out.println(usu.length()+"---------"+cont.length());
                 System.out.println(Usua.charAt(Usua.length()-1));
+                usuarioID=rs.getString("Usuario_id").toString();
                 for(int i=0;i<Usua.length();i++)
                 {
                     if(usu.length()==Usua.length())
