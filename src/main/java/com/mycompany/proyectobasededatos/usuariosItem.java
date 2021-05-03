@@ -91,7 +91,7 @@ public class usuariosItem extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "id","Nombre","Telefono","Email","Estado","Cargo_id",
+                "id","Nombre","Telefono","Email","jToggleButton1","Cargo_id",
             }
         ));
         jScrollPane1.setViewportView(jTable1);
