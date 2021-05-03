@@ -31,11 +31,12 @@ public class inventarioItem extends javax.swing.JInternalFrame {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try (Connection cnx = conexion.getConnection()) {
-            String query = "SELECT * FROM producto INNER JOIN categorÃ­a ON producto.CategorÃ­a_id=categorÃ­a.id";
+            String query = "SELECT * FROM producto INNER JOIN categoría ON producto.Categoría_id=categoría.id";
+            //SELECT * FROM producto INNER JOIN categorí­a ON producto.Categorí­a_id=categorí­a.id
             ps = cnx.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getInt("producto.id"), rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"), rs.getString("categorï¿½a.Tipo")});
+                model.addRow(new Object[]{rs.getInt("producto.id"), rs.getString("producto.Nombre"), rs.getInt("producto.Costo"), rs.getInt("producto.Precio_Venta"), rs.getInt("producto.Cantidad"), rs.getString("categoría.Tipo")});
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -52,22 +53,24 @@ public class inventarioItem extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollBar1 = new javax.swing.JScrollBar();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
 
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
+        setTitle("Inventario");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Inventario actual");
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(82, 97, 107), 2));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Nombre", "Costo", "Precio Venta", "Cantidad", "Categorï¿½a"
+                "id", "Nombre", "Costo", "Precio Venta", "Cantidad", "Categoría"
             }
         ) {
             Class[] types = new Class [] {
@@ -85,35 +88,29 @@ public class inventarioItem extends javax.swing.JInternalFrame {
             jTable1.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(381, 381, 381)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 782, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(47, Short.MAX_VALUE))
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 34, 782, 351));
+
+        jPanel1.setBackground(new java.awt.Color(201, 214, 223));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 910, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 490, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 490));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

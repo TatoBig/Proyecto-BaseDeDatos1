@@ -1,6 +1,5 @@
 package com.mycompany.proyectobasededatos;
 
-
 public class Home extends javax.swing.JFrame {
 
     /**
@@ -24,11 +23,20 @@ public class Home extends javax.swing.JFrame {
         comprabtn = new javax.swing.JButton();
         ventabtn = new javax.swing.JButton();
         inventariobtn = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("HOME");
         setAlwaysOnTop(true);
+        setBackground(new java.awt.Color(82, 97, 107));
+        setLocationByPlatform(true);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        homeDesktop.setBackground(new java.awt.Color(30, 32, 34));
+        homeDesktop.setForeground(new java.awt.Color(30, 32, 34));
+        homeDesktop.setDoubleBuffered(true);
 
         javax.swing.GroupLayout homeDesktopLayout = new javax.swing.GroupLayout(homeDesktop);
         homeDesktop.setLayout(homeDesktopLayout);
@@ -43,41 +51,88 @@ public class Home extends javax.swing.JFrame {
 
         getContentPane().add(homeDesktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 66, 930, -1));
 
+        usuariosbtn.setBackground(new java.awt.Color(82, 97, 107));
+        usuariosbtn.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        usuariosbtn.setForeground(new java.awt.Color(240, 245, 249));
         usuariosbtn.setText("USUARIOS");
+        usuariosbtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        usuariosbtn.setMaximumSize(new java.awt.Dimension(60, 21));
+        usuariosbtn.setMinimumSize(new java.awt.Dimension(60, 21));
+        usuariosbtn.setPreferredSize(new java.awt.Dimension(60, 21));
         usuariosbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usuariosbtnActionPerformed(evt);
             }
         });
-        getContentPane().add(usuariosbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 115, 49));
+        getContentPane().add(usuariosbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 110, 49));
 
+        comprabtn.setBackground(new java.awt.Color(82, 97, 107));
+        comprabtn.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        comprabtn.setForeground(new java.awt.Color(240, 245, 249));
         comprabtn.setText("COMPRA");
+        comprabtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         comprabtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comprabtnActionPerformed(evt);
             }
         });
-        getContentPane().add(comprabtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 115, 49));
+        getContentPane().add(comprabtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 110, 49));
 
+        ventabtn.setBackground(new java.awt.Color(82, 97, 107));
+        ventabtn.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        ventabtn.setForeground(new java.awt.Color(240, 245, 249));
         ventabtn.setText("VENTA");
+        ventabtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        ventabtn.setMaximumSize(new java.awt.Dimension(60, 21));
+        ventabtn.setMinimumSize(new java.awt.Dimension(60, 21));
+        ventabtn.setPreferredSize(new java.awt.Dimension(60, 21));
         ventabtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ventabtnActionPerformed(evt);
             }
         });
-        getContentPane().add(ventabtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, 115, 49));
+        getContentPane().add(ventabtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, 110, 49));
 
+        inventariobtn.setBackground(new java.awt.Color(82, 97, 107));
+        inventariobtn.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        inventariobtn.setForeground(new java.awt.Color(240, 245, 249));
         inventariobtn.setText("INVENTARIO");
+        inventariobtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        inventariobtn.setMaximumSize(new java.awt.Dimension(60, 21));
+        inventariobtn.setMinimumSize(new java.awt.Dimension(60, 21));
+        inventariobtn.setPreferredSize(new java.awt.Dimension(60, 21));
         inventariobtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inventariobtnActionPerformed(evt);
             }
         });
-        getContentPane().add(inventariobtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, 123, 49));
+        getContentPane().add(inventariobtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, 120, 49));
+
+        jPanel1.setBackground(new java.awt.Color(82, 97, 107));
+        jPanel1.setForeground(new java.awt.Color(82, 97, 107));
+        jPanel1.setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(240, 245, 249));
         jLabel1.setText("MUEBLERIA E'BAL");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel1)
+                .addContainerGap(560, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(0, 532, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 590));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -85,16 +140,16 @@ public class Home extends javax.swing.JFrame {
     private void inventariobtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventariobtnActionPerformed
         // TODO add your handling code here:
         homeDesktop.removeAll();
-        inventarioItem inventario =new inventarioItem();
+        inventarioItem inventario = new inventarioItem();
         homeDesktop.add(inventario).setVisible(true);
     }//GEN-LAST:event_inventariobtnActionPerformed
 
     private void comprabtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprabtnActionPerformed
         // TODO add your handling code here:
-        homeDesktop.removeAll(); 
-        compraItem compra =new compraItem();
+        homeDesktop.removeAll();
+        compraItem compra = new compraItem();
         homeDesktop.add(compra).setVisible(true);
-    
+
     }//GEN-LAST:event_comprabtnActionPerformed
 
     private void usuariosbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosbtnActionPerformed
@@ -102,13 +157,13 @@ public class Home extends javax.swing.JFrame {
         homeDesktop.removeAll();
         usuariosItem u = new usuariosItem();
         homeDesktop.add(u).setVisible(true);
-      
+
     }//GEN-LAST:event_usuariosbtnActionPerformed
-                         
+
     private void ventabtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventabtnActionPerformed
         // TODO add your handling code here:
         homeDesktop.removeAll();
-        ventaItem venta=new ventaItem();
+        ventaItem venta = new ventaItem();
         homeDesktop.add(venta).setVisible(true);
     }//GEN-LAST:event_ventabtnActionPerformed
 
@@ -152,6 +207,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JDesktopPane homeDesktop;
     private javax.swing.JButton inventariobtn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton usuariosbtn;
     private javax.swing.JButton ventabtn;
     // End of variables declaration//GEN-END:variables
